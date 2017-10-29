@@ -24,10 +24,10 @@ public final class ThreadPool {
     // 创建线程池,worker_num为线程池中工作线程的个数
     private ThreadPool(int worker_num) {
         ThreadPool.worker_num = worker_num;
-        workThrads = new WorkThread[worker_num];
+        workThrads = new WorkThread[worker_num];//WorkThread是内部类
         for (int i = 0; i < worker_num; i++) {
             workThrads[i] = new WorkThread();
-            workThrads[i].start();// 开启线程池中的线程
+            workThrads[i].start();// 开启线程池中的线程,调用workThrads类的run方法
         }
     }
 
@@ -113,7 +113,7 @@ public final class ThreadPool {
     }
 
     /**
-     * 内部类，工作线程
+     * 内部类，工作线程（关键所在）
      */
     private class WorkThread extends Thread {
         // 该工作线程是否有效，用于结束该工作线程
@@ -138,7 +138,7 @@ public final class ThreadPool {
                         r = taskQueue.remove(0);// 取出任务
                 }
                 if (r != null) {
-                    r.run();// 执行任务
+                    r.run();// 执行任务，调用TestThreadPool中task的run方法，并没有用start()
                 }
                 finished_task++;
                 r = null;
